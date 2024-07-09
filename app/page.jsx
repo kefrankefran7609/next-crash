@@ -7,9 +7,12 @@ import FeaturedProperties from "@/components/FeaturedProperties";
 
 const HomePage = async () => {
 	const data = await fetchProperties();
-	const recentProperties = data.properties
-		.sort(() => Math.random() - Math.random())
-		.slice(0, 3);
+	console.log(data.properties);
+	const recentProperties = data.properties.sort(
+		() => Math.random() - Math.random()
+	);
+
+	console.log(recentProperties);
 
 	return (
 		<>
