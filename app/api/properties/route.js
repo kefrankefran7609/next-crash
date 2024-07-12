@@ -82,7 +82,7 @@ export const POST = async (request) => {
 		};
 
 		//Upload image(s) to cloudinary
-		const imageUploadPromises = [];
+		const imageUrls = [];
 
 		for (const image of images) {
 			const imageBuffer = await image.arrayBuffer();
@@ -98,12 +98,10 @@ export const POST = async (request) => {
 				{ folder: "propertypulse" }
 			);
 
-			imageUploadPromises.push(result.secure_url);
+			imageUrls.push(result.secure_url);
 
-			// Wait for all images to upload
-			const uploadedImages = await Promise.all(imageUploadPromises);
 			// Add uploaded images to propertyData object
-			propertyData.images = uploadedImages;
+			propertyData.images = imageUrls;
 		}
 
 		const newProperty = new Property(propertyData);

@@ -2,91 +2,11 @@
 import { useState } from "react";
 
 const PropertyAddForm = () => {
-	const [fields, setFields] = useState({
-		type: "",
-		name: "",
-		description: "",
-		location: {
-			street: "",
-			city: "",
-			state: "",
-			zipcode: "",
-		},
-		beds: "",
-		baths: "",
-		square_feet: "",
-		amenities: [],
-		rates: {
-			weekly: "",
-			monthly: "",
-			nightly: "",
-		},
-		seller_info: {
-			name: "",
-			email: "",
-			phone: "",
-		},
-		images: [],
-	});
-
-	const handleChange = (e) => {
-		const { name, value } = e.target;
-		//check if nested property, with a .
-		if (name.includes(".")) {
-			const [outerKey, innerKey] = name.split(".");
-
-			setFields((prevFields) => ({
-				...prevFields,
-				[outerKey]: {
-					...prevFields[outerKey],
-					[innerKey]: value,
-				},
-			}));
-		} else {
-			setFields((prevFields) => ({
-				...prevFields,
-				[name]: value,
-			}));
-		}
-	};
-	const handleAmenitiesChange = (e) => {
-		const { value, checked } = e.target;
-
-		// Clone the current array
-		const updatedAmenities = [...fields.amenities];
-
-		if (checked) {
-			//Add value to array
-			updatedAmenities.push(value);
-		} else {
-			//Remove value from array
-			const index = updatedAmenities.indexOf(value);
-			if (index != -1) {
-				updatedAmenities.splice(index, 1);
-			}
-		}
-		// UPdate state with new array
-		setFields((prevFields) => ({
-			...prevFields,
-			amenities: updatedAmenities,
-		}));
-	};
 	const handleImageChange = (e) => {
-		const { files } = e.target;
-
-		// Clone images array
-		const newImages = [...fields.images];
-
-		// Add new files to the array
-		for (const file of files) {
-			newImages.push(file);
+		if (e.target.files.length > 4) {
+			e.target.value = "";
+			toast.error("You can select up to 4 images in total.");
 		}
-
-		//Update state with array of images
-		setFields((prevFields) => ({
-			...prevFields,
-			images: newImages,
-		}));
 	};
 
 	return (
